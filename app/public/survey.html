@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend Finder</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        
+    <div class="col-lg-12">
+        
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>Add Characters</strong></h3>
+    </div>
+    <div class="panel-body">
+        <form method="POST" role="form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name">
+            </div>
+        
+            <div class="form-group">
+                <label for="role">Role</label>
+                    <input type="text" class="form-control" id="role">
+            </div>
+        </form>
+        <h3>Question 1</h3>
+        <h4>Your mind is always buzzing with unexplored ideas</h4> 
+        <select data-placeholder="" class="chosen-select" id="q1" style="display: none;">
+            <option value=""></option>
+            <option value="1">1 (Strongly Disagree)</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
+        </select>
+        <div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q1_chosen">
+            <a class="chosen-single chosen-default">
+                <span>Select an Option</span>
+            <div>
+            <b></b>
+            </div>
+            </a>
+            <div class="chosen-drop">
+                <div class="chosen-search">
+                    <input type="text" autocomplete="off">
+                </div>
+                <ul class="chosen-results">
+                    <li class="active-result" data-option-array-index="1" style="">1 (Strongly Disagree)</li>
+                    <li class="active-result" data-option-array-index="2" style="">2</li>
+                    <li class="active-result" data-option-array-index="3" style="">3</li>
+                    <li class="active-result" data-option-array-index="4" style="">4</li>
+                    <li class="active-result" data-option-array-index="5" style="">5 (Strongly Agree)</li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div> -->
+        <br>
+        <button type="submit" class="btn btn-primary btn-block" id="add-btn"><span class="glyphicon glyphicon-ok-circle"></span> Submit</button>
+    
+        <script type="text/javascript">
+            
+                  // Chosen CSS
+                var config = {
+                  '.chosen-select'           : {},
+                  '.chosen-select-deselect'  : {allow_single_deselect:true},
+                  '.chosen-select-no-single' : {disable_search_threshold:10},
+                  '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                  '.chosen-select-width'     : {width:"95%"}
+                }
+                for (var selector in config) {
+                  $(selector).chosen(config[selector]);
+                }
+            
+                // Capture the form inputs 
+                $("#submit").on("click", function(){
+            
+                    // Form validation
+                    function validateForm() {
+                      var isValid = true;
+                      $('.form-control').each(function() {
+                        if ( $(this).val() === '' )
+                            isValid = false;
+                      });
+            
+                      $('.chosen-select').each(function() {
+            
+                          if( $(this).val() === "")
+                              isValid = false
+                      })
+                      return isValid;
+                    }
+            
+                    // If all required fields are filled
+                    if (validateForm() == true)
+                    {
+                        // Create an object for the user's data
+                        var userData = {
+                            name: $("#name").val(),
+                            photo: $("#photo").val(),
+                            scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val(), ]
+                        }
+            
+            
+                        // Grab the URL of the website
+                        var currentURL = window.location.origin;
+            
+                        // AJAX post the data to the friends API. 
+                        $.post(currentURL + "/api/friends", userData, function(data){
+            
+                            // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                            $("#matchName").text(data.name);
+                            $('#matchImg').attr("src", data.photo);
+            
+                            // Show the modal with the best match 
+                            $("#resultsModal").modal('toggle');
+            
+                        });
+                    }
+                    else
+                    {
+                        alert("Please fill out all fields before submitting!");
+                    }
+                    
+                    return false;
+                });
+            
+            
+              </script>
+    </div>
+    </div>
+        
+    </div>
+    </div>
+    <p><a>API Friends List</a> | <a href="https://github.com/maike-hilda/FriendFinder">GitHubRepo</a></p>
+</div>
+    
+
+  <!-- <script type="text/javascript">
+    $("#search-btn").on("click", function() {
+      var searchedCharacter = $("#character-search").val().trim();
+
+      searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
+
+      $.get("/api/" + searchedCharacter, function(data) {
+        console.log(data);
+        if (data) {
+          $("#stats").show();
+          $("#name").text(data.name);
+          $("#role").text(data.role);
+          $("#age").text(data.age);
+          $("#force-points").text(data.forcePoints);
+        }
+        else {
+          $("#name").text("The force is not strong with this one. Your character was not found.");
+          $("#stats").hide();
+        }
+      });
+    });
+  </script> -->
+</body>
+</html>

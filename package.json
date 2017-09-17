@@ -1,0 +1,25 @@
+{
+  "name": "friendfinder",
+  "version": "1.0.0",
+  "description": "An app that matches the user with other users who get similar survey results.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maike-hilda/FriendFinder.git"
+  },
+  "author": "Maike Scherer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maike-hilda/FriendFinder/issues"
+  },
+  "homepage": "https://github.com/maike-hilda/FriendFinder#readme",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "path": "^0.12.7"
+  }
+}
