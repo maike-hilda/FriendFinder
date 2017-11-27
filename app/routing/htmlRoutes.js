@@ -1,7 +1,7 @@
 // Routes
 var path = require("path");
 
-function app() {
+module.exports = function (app) {
   // Route to survey
   app.get("/survey", function(req, res) {
     res.sendFile(path.join(__dirname, "/../public/survey.html"));
@@ -18,7 +18,7 @@ function app() {
   });
 }
 
-module.exports = app;
+//module.exports = app;
 
   
  
